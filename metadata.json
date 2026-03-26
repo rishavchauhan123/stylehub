@@ -1,0 +1,5 @@
+{
+  "name": "StyleHub Business Manager",
+  "description": "A comprehensive full-stack management system for clothing businesses, featuring inventory, sales, expenses, and role-based access control.",
+  "requestFramePermissions": []
+}

@@ -1,0 +1,176 @@
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+
+    // ===============================================================
+    // Assumed Data Model
+    // ===============================================================
+    //
+    // Collection: users
+    // Fields: uid, email, displayName, role (admin, manager, staff), createdAt
+    //
+    // Collection: products
+    // Fields: sku, name, category, costPrice, sellingPrice, stock, lowStockThreshold, variants, createdAt
+    //
+    // Collection: sales
+    // Fields: invoiceNumber, customerId, customerName, items, total, profit, paymentMethod, createdAt
+    //
+    // Collection: purchases
+    // Fields: supplierName, items, total, createdAt
+    //
+    // Collection: customers
+    // Fields: name, phone, email, totalSpent, lastPurchaseAt
+    //
+    // Collection: expenses
+    // Fields: category, amount, description, date
+    //
+    // Collection: activity_logs
+    // Fields: userId, userName, action, timestamp
+    //
+    // ===============================================================
+
+    // ===============================================================
+    // Helper Functions
+    // ===============================================================
+
+    function isAuthenticated() {
+      return request.auth != null;
+    }
+
+    function isAdmin() {
+      return isAuthenticated() &&
+        (get(/databases/$(database)/documents/users/$(request.auth.uid)).data.role == 'admin' ||
+          (request.auth.token.email == "rishavchauhan2407@gmail.com" && request.auth.token.email_verified == true));
+    }
+
+    function isManager() {
+      return isAuthenticated() &&
+        (get(/databases/$(database)/documents/users/$(request.auth.uid)).data.role == 'manager' || isAdmin());
+    }
+
+    function isStaff() {
+      return isAuthenticated() &&
+        (get(/databases/$(database)/documents/users/$(request.auth.uid)).data.role == 'staff' || isManager());
+    }
+
+    function isOwner(userId) {
+      return isAuthenticated() && request.auth.uid == userId;
+    }
+
+    function hasOnlyAllowedFields(fields) {
+      return request.resource.data.keys().hasOnly(fields);
+    }
+
+    function hasRequiredFields(fields) {
+      return request.resource.data.keys().hasAll(fields);
+    }
+
+    // ===============================================================
+    // Domain Validators
+    // ===============================================================
+
+    function isValidUser(data) {
+      return hasRequiredFields(['uid', 'email', 'role']) &&
+             data.uid is string &&
+             data.email is string &&
+             data.role in ['admin', 'manager', 'staff'];
+    }
+
+    function isValidProduct(data) {
+      return hasRequiredFields(['sku', 'name', 'category', 'costPrice', 'sellingPrice', 'stock']) &&
+             data.sku is string &&
+             data.name is string &&
+             data.category in ['Men', 'Women', 'Accessories'] &&
+             data.costPrice is number &&
+             data.sellingPrice is number &&
+             data.stock is int;
+    }
+
+    function isValidSale(data) {
+      return hasRequiredFields(['invoiceNumber', 'items', 'total', 'profit', 'paymentMethod', 'createdAt']) &&
+             data.invoiceNumber is string &&
+             data.items is list &&
+             data.total is number &&
+             data.profit is number &&
+             data.paymentMethod in ['Cash', 'Card', 'UPI'];
+    }
+
+    function isValidPurchase(data) {
+      return hasRequiredFields(['supplierName', 'items', 'total', 'createdAt']) &&
+             data.supplierName is string &&
+             data.items is list &&
+             data.total is number;
+    }
+
+    function isValidCustomer(data) {
+      return hasRequiredFields(['name', 'phone']) &&
+             data.name is string &&
+             data.phone is string;
+    }
+
+    function isValidExpense(data) {
+      return hasRequiredFields(['category', 'amount', 'date']) &&
+             data.category is string &&
+             data.amount is number;
+    }
+
+    function isValidActivityLog(data) {
+      return hasRequiredFields(['userId', 'action', 'timestamp']) &&
+             data.userId is string &&
+             data.action is string;
+    }
+
+    // ===============================================================
+    // Rules
+    // ===============================================================
+
+    match /users/{userId} {
+      allow read: if isAuthenticated();
+      allow create: if isAuthenticated() && isValidUser(request.resource.data) && (isOwner(userId) || isAdmin());
+      allow update: if isAuthenticated() && isValidUser(request.resource.data) && (isAdmin() || (isOwner(userId) && request.resource.data.role == resource.data.role));
+      allow delete: if isAdmin();
+    }
+
+    match /products/{productId} {
+      allow read: if isStaff();
+      allow create: if isManager() && isValidProduct(request.resource.data);
+      allow update: if isStaff() && isValidProduct(request.resource.data);
+      allow delete: if isAdmin();
+    }
+
+    match /sales/{saleId} {
+      allow read: if isStaff();
+      allow create: if isStaff() && isValidSale(request.resource.data);
+      allow update: if isManager() && isValidSale(request.resource.data);
+      allow delete: if isAdmin();
+    }
+
+    match /purchases/{purchaseId} {
+      allow read: if isManager();
+      allow create: if isManager() && isValidPurchase(request.resource.data);
+      allow update: if isManager() && isValidPurchase(request.resource.data);
+      allow delete: if isAdmin();
+    }
+
+    match /customers/{customerId} {
+      allow read: if isStaff();
+      allow create: if isStaff() && isValidCustomer(request.resource.data);
+      allow update: if isStaff() && isValidCustomer(request.resource.data);
+      allow delete: if isAdmin();
+    }
+
+    match /expenses/{expenseId} {
+      allow read: if isManager();
+      allow create: if isManager() && isValidExpense(request.resource.data);
+      allow update: if isManager() && isValidExpense(request.resource.data);
+      allow delete: if isAdmin();
+    }
+
+    match /activity_logs/{logId} {
+      allow read: if isAdmin();
+      allow create: if isAuthenticated() && isValidActivityLog(request.resource.data);
+      allow update: if false;
+      allow delete: if isAdmin();
+    }
+  }
+}
