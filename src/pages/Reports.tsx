@@ -19,7 +19,7 @@ import { format, startOfMonth, endOfMonth, eachMonthOfInterval, subMonths, isSam
 import { 
   TrendingUp, 
   TrendingDown, 
-  DollarSign, 
+  IndianRupee, 
   PieChart as PieChartIcon, 
   Calendar, 
   Download 
@@ -105,7 +105,7 @@ export default function Reports({ user }: ReportsProps) {
       <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
         <div className="bg-white p-8 rounded-3xl border border-neutral-200 shadow-sm">
           <p className="text-xs font-mono uppercase tracking-widest text-neutral-400 mb-2">Total Revenue</p>
-          <p className="text-4xl font-serif italic text-neutral-900">${totalRevenue.toLocaleString()}</p>
+          <p className="text-4xl font-serif italic text-neutral-900">₹ {totalRevenue.toLocaleString()}</p>
           <div className="mt-4 flex items-center gap-2 text-emerald-600 text-sm font-bold">
             <TrendingUp size={16} />
             <span>+12.5% from last month</span>
@@ -113,7 +113,7 @@ export default function Reports({ user }: ReportsProps) {
         </div>
         <div className="bg-white p-8 rounded-3xl border border-neutral-200 shadow-sm">
           <p className="text-xs font-mono uppercase tracking-widest text-neutral-400 mb-2">Total Expenses</p>
-          <p className="text-4xl font-serif italic text-neutral-900">${totalExpenses.toLocaleString()}</p>
+          <p className="text-4xl font-serif italic text-neutral-900">₹ {totalExpenses.toLocaleString()}</p>
           <div className="mt-4 flex items-center gap-2 text-red-600 text-sm font-bold">
             <TrendingDown size={16} />
             <span>+4.2% from last month</span>
@@ -121,7 +121,7 @@ export default function Reports({ user }: ReportsProps) {
         </div>
         <div className="bg-neutral-900 p-8 rounded-3xl border border-neutral-800 shadow-xl text-white">
           <p className="text-xs font-mono uppercase tracking-widest text-neutral-500 mb-2">Net Profit</p>
-          <p className="text-4xl font-serif italic">${netProfit.toLocaleString()}</p>
+          <p className="text-4xl font-serif italic">₹ {netProfit.toLocaleString()}</p>
           <div className="mt-4 flex items-center gap-2 text-emerald-400 text-sm font-bold">
             <TrendingUp size={16} />
             <span>Healthy margins</span>
@@ -220,7 +220,7 @@ export default function Reports({ user }: ReportsProps) {
                   <td className="px-10 py-5 text-sm font-bold text-neutral-900">{prod.name}</td>
                   <td className="px-10 py-5 text-sm text-neutral-500">{prod.category}</td>
                   <td className="px-10 py-5 text-sm text-neutral-500">{prod.stock} units</td>
-                  <td className="px-10 py-5 text-sm font-bold text-neutral-900">${prod.sellingPrice.toFixed(2)}</td>
+                  <td className="px-10 py-5 text-sm font-bold text-neutral-900">₹ {prod.sellingPrice.toFixed(2)}</td>
                   <td className="px-10 py-5">
                     <span className="text-xs font-bold text-emerald-600 bg-emerald-50 px-3 py-1 rounded-full">
                       {(((prod.sellingPrice - prod.costPrice) / prod.sellingPrice) * 100).toFixed(1)}%

@@ -203,8 +203,8 @@ export default function Inventory({ user }: InventoryProps) {
                       {product.category}
                     </span>
                   </td>
-                  <td className="px-8 py-5 text-sm font-medium text-neutral-500">${product.costPrice.toFixed(2)}</td>
-                  <td className="px-8 py-5 text-sm font-bold text-neutral-900">${product.sellingPrice.toFixed(2)}</td>
+                  <td className="px-8 py-5 text-sm font-medium text-neutral-500">₹ {product.costPrice.toFixed(2)}</td>
+                  <td className="px-8 py-5 text-sm font-bold text-neutral-900">₹ {product.sellingPrice.toFixed(2)}</td>
                   <td className="px-8 py-5">
                     <div className="flex items-center gap-2">
                       <div className={cn(

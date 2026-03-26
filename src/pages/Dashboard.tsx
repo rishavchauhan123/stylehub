@@ -7,7 +7,7 @@ import {
   TrendingDown, 
   Package, 
   ShoppingCart, 
-  DollarSign, 
+  IndianRupee, 
   AlertTriangle 
 } from 'lucide-react';
 import { 
@@ -71,9 +71,9 @@ export default function Dashboard({ user }: DashboardProps) {
   });
 
   const stats = [
-    { name: 'Total Revenue', value: `$${totalRevenue.toLocaleString()}`, icon: DollarSign, color: 'text-emerald-600', bg: 'bg-emerald-50' },
-    { name: 'Net Profit', value: `$${totalProfit.toLocaleString()}`, icon: TrendingUp, color: 'text-blue-600', bg: 'bg-blue-50' },
-    { name: 'Stock Value', value: `$${stockValue.toLocaleString()}`, icon: Package, color: 'text-amber-600', bg: 'bg-amber-50' },
+    { name: 'Total Revenue', value: `₹ ${totalRevenue.toLocaleString()}`, icon: IndianRupee, color: 'text-emerald-600', bg: 'bg-emerald-50' },
+    { name: 'Net Profit', value: `₹ ${totalProfit.toLocaleString()}`, icon: TrendingUp, color: 'text-blue-600', bg: 'bg-blue-50' },
+    { name: 'Stock Value', value: `₹ ${stockValue.toLocaleString()}`, icon: Package, color: 'text-amber-600', bg: 'bg-amber-50' },
     { name: 'Total Products', value: products.length, icon: ShoppingCart, color: 'text-purple-600', bg: 'bg-purple-50' },
   ];
 
@@ -202,10 +202,10 @@ export default function Dashboard({ user }: DashboardProps) {
                   <td className="px-8 py-4 text-sm font-mono font-medium text-neutral-900 group-hover:underline">#{sale.invoiceNumber}</td>
                   <td className="px-8 py-4 text-sm text-neutral-600">{sale.customerName || 'Walk-in Customer'}</td>
                   <td className="px-8 py-4 text-sm text-neutral-500">{format(new Date(sale.createdAt), 'MMM d, h:mm a')}</td>
-                  <td className="px-8 py-4 text-sm font-bold text-neutral-900">${sale.total.toFixed(2)}</td>
+                  <td className="px-8 py-4 text-sm font-bold text-neutral-900">₹ {sale.total.toFixed(2)}</td>
                   <td className="px-8 py-4">
                     <span className="text-xs font-bold text-emerald-600 bg-emerald-50 px-2 py-1 rounded-md">
-                      +${sale.profit.toFixed(2)}
+                      +₹ {sale.profit.toFixed(2)}
                     </span>
                   </td>
                 </tr>

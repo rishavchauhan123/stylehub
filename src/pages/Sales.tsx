@@ -202,7 +202,7 @@ export default function Sales({ user }: SalesProps) {
                     <span className="text-[10px] uppercase tracking-widest text-neutral-400 font-mono mb-1">{product.sku}</span>
                     <span className="text-sm font-bold text-neutral-900 mb-4 line-clamp-2">{product.name}</span>
                     <div className="mt-auto flex items-center justify-between">
-                      <span className="text-lg font-serif italic text-neutral-900">${product.sellingPrice.toFixed(2)}</span>
+                      <span className="text-lg font-serif italic text-neutral-900">₹ {product.sellingPrice.toFixed(2)}</span>
                       <span className={cn(
                         "text-[10px] font-bold px-2 py-1 rounded-md",
                         product.stock > 5 ? "bg-emerald-50 text-emerald-600" : "bg-amber-50 text-amber-600"
@@ -231,7 +231,7 @@ export default function Sales({ user }: SalesProps) {
                 <div key={item.productId} className="flex items-center gap-4 group">
                   <div className="flex-1">
                     <p className="text-sm font-bold text-neutral-900 line-clamp-1">{item.name}</p>
-                    <p className="text-xs text-neutral-500">${item.price.toFixed(2)} each</p>
+                    <p className="text-xs text-neutral-500">₹ {item.price.toFixed(2)} each</p>
                   </div>
                   <div className="flex items-center gap-2 bg-neutral-50 p-1 rounded-lg border border-neutral-100">
                     <button 
@@ -268,11 +268,11 @@ export default function Sales({ user }: SalesProps) {
               <div className="space-y-2">
                 <div className="flex justify-between text-sm text-neutral-500">
                   <span>Subtotal</span>
-                  <span>${cartTotal.toFixed(2)}</span>
+                  <span>₹ {cartTotal.toFixed(2)}</span>
                 </div>
                 <div className="flex justify-between text-xl font-serif italic text-neutral-900 pt-2 border-t border-neutral-200">
                   <span>Total</span>
-                  <span>${cartTotal.toFixed(2)}</span>
+                  <span>₹ {cartTotal.toFixed(2)}</span>
                 </div>
               </div>
 
@@ -346,7 +346,7 @@ export default function Sales({ user }: SalesProps) {
                       </span>
                     </td>
                     <td className="px-8 py-4 text-sm text-neutral-500">{format(new Date(sale.createdAt), 'MMM d, yyyy h:mm a')}</td>
-                    <td className="px-8 py-4 text-sm font-bold text-neutral-900">${sale.total.toFixed(2)}</td>
+                    <td className="px-8 py-4 text-sm font-bold text-neutral-900">₹ {sale.total.toFixed(2)}</td>
                     <td className="px-8 py-4">
                       <button className="p-2 text-neutral-400 hover:text-neutral-900 transition-colors">
                         <Download size={16} />

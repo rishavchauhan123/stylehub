@@ -138,7 +138,7 @@ export default function Customers({ user }: CustomersProps) {
               <div className="pt-4 border-t border-neutral-100 flex items-center justify-between">
                 <div className="flex flex-col">
                   <span className="text-[10px] uppercase tracking-widest text-neutral-400 font-mono">Total Spent</span>
-                  <span className="text-lg font-serif italic text-neutral-900">${customer.totalSpent.toFixed(2)}</span>
+                  <span className="text-lg font-serif italic text-neutral-900">₹ {customer.totalSpent.toFixed(2)}</span>
                 </div>
                 <div className="p-2 bg-neutral-50 text-neutral-400 rounded-lg">
                   <ShoppingBag size={18} />

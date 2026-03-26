@@ -108,7 +108,7 @@ export default function Expenses({ user }: ExpensesProps) {
         <div className="bg-white p-8 rounded-3xl border border-neutral-200 shadow-sm flex items-center justify-between">
           <div>
             <p className="text-xs font-mono uppercase tracking-widest text-neutral-400 mb-1">Total Spending</p>
-            <p className="text-3xl font-serif italic text-neutral-900">${totalExpenses.toLocaleString()}</p>
+            <p className="text-3xl font-serif italic text-neutral-900">₹ {totalExpenses.toLocaleString()}</p>
           </div>
           <div className="p-4 bg-red-50 text-red-600 rounded-2xl">
             <TrendingDown size={32} />
@@ -151,7 +151,7 @@ export default function Expenses({ user }: ExpensesProps) {
                   </td>
                   <td className="px-8 py-4 text-sm text-neutral-500">{expense.description}</td>
                   <td className="px-8 py-4 text-sm text-neutral-500 font-mono">{format(new Date(expense.date), 'MMM d, yyyy')}</td>
-                  <td className="px-8 py-4 text-sm font-bold text-red-600">-${expense.amount.toFixed(2)}</td>
+                  <td className="px-8 py-4 text-sm font-bold text-red-600">-₹ {expense.amount.toFixed(2)}</td>
                   <td className="px-8 py-4 text-right">
                     <div className="flex items-center justify-end gap-2 opacity-0 group-hover:opacity-100 transition-opacity">
                       <button 
@@ -212,7 +212,7 @@ export default function Expenses({ user }: ExpensesProps) {
                 </select>
               </div>
               <div className="space-y-2">
-                <label className="text-xs font-mono uppercase tracking-widest text-neutral-500">Amount ($)</label>
+                <label className="text-xs font-mono uppercase tracking-widest text-neutral-500">Amount (₹)</label>
                 <input
                   required
                   type="number"

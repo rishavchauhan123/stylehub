@@ -164,7 +164,7 @@ export default function Purchases({ user }: PurchasesProps) {
                     {purchase.items.length} items ({purchase.items.reduce((a, b) => a + b.quantity, 0)} units)
                   </td>
                   <td className="px-8 py-4 text-sm text-neutral-500">{format(new Date(purchase.createdAt), 'MMM d, yyyy')}</td>
-                  <td className="px-8 py-4 text-sm font-bold text-neutral-900">${purchase.total.toFixed(2)}</td>
+                  <td className="px-8 py-4 text-sm font-bold text-neutral-900">₹ {purchase.total.toFixed(2)}</td>
                   <td className="px-8 py-4">
                     <button className="p-2 text-neutral-400 hover:text-neutral-900 transition-colors">
                       <ChevronRight size={16} />
@@ -218,7 +218,7 @@ export default function Purchases({ user }: PurchasesProps) {
                         <span className="text-[10px] text-neutral-400 font-mono uppercase tracking-widest">{product.sku}</span>
                       </div>
                       <div className="flex items-center gap-3">
-                        <span className="text-xs font-mono text-neutral-400">${product.costPrice.toFixed(2)}</span>
+                        <span className="text-xs font-mono text-neutral-400">₹ {product.costPrice.toFixed(2)}</span>
                         <Plus size={16} className="text-neutral-300 group-hover:text-neutral-900" />
                       </div>
                     </button>
@@ -249,7 +249,7 @@ export default function Purchases({ user }: PurchasesProps) {
                         <div key={item.productId} className="flex items-center gap-4 bg-white p-4 rounded-xl border border-neutral-100">
                           <div className="flex-1">
                             <p className="text-sm font-bold text-neutral-900">{product?.name}</p>
-                            <p className="text-xs text-neutral-400">${item.cost.toFixed(2)} each</p>
+                            <p className="text-xs text-neutral-400">₹ {item.cost.toFixed(2)} each</p>
                           </div>
                           <input
                             type="number"
@@ -277,7 +277,7 @@ export default function Purchases({ user }: PurchasesProps) {
                   <div className="pt-6 border-t border-neutral-200 space-y-6">
                     <div className="flex justify-between items-center">
                       <span className="text-sm font-medium text-neutral-500">Total Cost</span>
-                      <span className="text-2xl font-serif italic text-neutral-900">${purchaseTotal.toFixed(2)}</span>
+                      <span className="text-2xl font-serif italic text-neutral-900">₹ {purchaseTotal.toFixed(2)}</span>
                     </div>
                     <button
                       type="submit"
