@@ -1,20 +1,64 @@
-<div align="center">
-<img width="1200" height="475" alt="GHBanner" src="https://github.com/user-attachments/assets/0aa67016-6eaf-458a-adb2-6e31a0763ed6" />
-</div>
+# StyleHub — Full-Stack Business Management System
 
-# Run and deploy your AI Studio app
+A modern clothing store management system with separate frontend (React + Vite) and backend (Python FastAPI + MongoDB) architectures.
 
-This contains everything you need to run your app locally.
+## Architecture
 
-View your app in AI Studio: https://ai.studio/apps/0f258cab-eb76-4597-989b-515747651a2c
+- **Frontend**: React + TypeScript + Vite + Tailwind CSS
+- **Backend**: Python FastAPI + MongoDB + JWT Authentication
+- **Database**: MongoDB (replaces Firebase Firestore)
 
-## Run Locally
+## Quick Start
 
-**Prerequisites:**  Node.js
+### Backend Setup
 
+```bash
+cd backend
+pip install -r requirements.txt
+# Set up environment variables in .env (see .env.example)
+python seed.py  # Seeds default admin user
+uvicorn main:app --reload --port 8000
+```
 
-1. Install dependencies:
-   `npm install`
-2. Set the `GEMINI_API_KEY` in [.env.local](.env.local) to your Gemini API key
-3. Run the app:
-   `npm run dev`
+Test backend: http://localhost:8000/docs (Swagger UI)
+
+### Frontend Setup
+
+```bash
+cd frontend
+npm install
+npm run dev  # Runs on http://localhost:5173
+```
+
+### Default Admin Credentials
+
+- **Email**: admin@stylehub.com
+- **Password**: admin123
+
+## Features
+
+- User authentication with JWT
+- Inventory management
+- Sales and purchase tracking
+- Customer management
+- Expense tracking
+- Reports and analytics
+- User role management (Admin/Manager/Staff)
+
+## API Endpoints
+
+- `POST /auth/login` - User login
+- `GET /auth/me` - Get current user profile
+- `PUT /auth/me` - Update profile/password
+- `GET/POST /products` - CRUD products
+- `GET/POST /sales` - CRUD sales
+- `GET/POST /purchases` - CRUD purchases
+- `GET/POST /customers` - CRUD customers
+- `GET/POST /expenses` - CRUD expenses
+- `GET/POST /users` - CRUD users (admin only)
+
+## Development
+
+- Backend runs on port 8000
+- Frontend runs on port 5173 with proxy to backend
+- MongoDB connection required

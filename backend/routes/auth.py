@@ -4,7 +4,7 @@ import bcrypt
 from datetime import datetime, timedelta
 from bson import ObjectId
 from database import get_db
-from models.user import LoginRequest, TokenResponse, UserOut
+from models.user import LoginRequest, TokenResponse, UserOut, UserUpdate
 from middleware.auth import get_current_user
 from dotenv import load_dotenv
 import os
@@ -74,3 +74,20 @@ async def get_me(current_user=Depends(get_current_user)):
         lastLoginAt=current_user.get("lastLoginAt"),
         createdAt=current_user["createdAt"],
     )
+
+
+@router.put("/me", response_model=UserOut)
+async def update_me(data: UserUpdate, current_user=Depends(get_current_user)):
+    db = get_db()
+    update_data = {}
+    if data.displayName is not None:
+        update_data["displayName"] = data.displayName
+    if data.phone is not None:
+        update_data["phone"] = data.phone
+    if data.password is not None:
+        password_hash = bcrypt.hashpw(data.password.encode(), bcrypt.gensalt()).decode()
+        update_data["passwordHash"] = password_hash
+    if update_data:
+        await db.users.update_one({"_id": current_user["_id"]}, {"$set": update_data})
+        current_user.update(update_data)
+    return user_to_out(current_user)

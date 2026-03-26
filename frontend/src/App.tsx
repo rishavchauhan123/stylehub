@@ -68,7 +68,7 @@ export default function App() {
           <Route path="/expenses" element={<Expenses user={user} />} />
           <Route path="/reports" element={<Reports user={user} />} />
           <Route path="/user-management" element={<UserManagement user={user} />} />
-          <Route path="/profile" element={<ProfileSettings user={user} onUpdate={setUser} />} />
+          <Route path="/profile" element={<ProfileSettings user={user} />} />
           <Route path="*" element={<Navigate to="/" />} />
         </Routes>
       </Layout>
