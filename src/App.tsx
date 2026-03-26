@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
 import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
 import { onAuthStateChanged } from 'firebase/auth';
-import { doc, getDoc, setDoc } from 'firebase/firestore';
+import { doc, getDoc, setDoc, updateDoc } from 'firebase/firestore';
 import { auth, db } from './firebase';
 import { UserProfile } from './types';
 import Auth from './components/Auth';
@@ -25,7 +25,13 @@ export default function App() {
       if (firebaseUser) {
         const userDoc = await getDoc(doc(db, 'users', firebaseUser.uid));
         if (userDoc.exists()) {
-          setUser(userDoc.data() as UserProfile);
+          const userData = userDoc.data() as UserProfile;
+          // Update last login
+          await updateDoc(doc(db, 'users', firebaseUser.uid), {
+            lastLoginAt: new Date().toISOString(),
+            status: 'Active'
+          });
+          setUser({ ...userData, lastLoginAt: new Date().toISOString(), status: 'Active' });
         } else {
           // Handle first-time login for admin email
           const isDefaultAdmin = firebaseUser.email === 'rishavchauhan2407@gmail.com';
@@ -34,6 +40,8 @@ export default function App() {
             email: firebaseUser.email || '',
             displayName: firebaseUser.displayName || 'User',
             role: isDefaultAdmin ? 'admin' : 'staff',
+            status: 'Active',
+            lastLoginAt: new Date().toISOString(),
             createdAt: new Date().toISOString(),
           };
           await setDoc(doc(db, 'users', firebaseUser.uid), newUser);

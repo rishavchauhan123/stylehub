@@ -5,6 +5,9 @@ export interface UserProfile {
   email: string;
   displayName: string;
   role: UserRole;
+  phone?: string;
+  status?: 'Active' | 'Inactive';
+  lastLoginAt?: string;
   createdAt: string;
 }
 
